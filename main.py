@@ -39,6 +39,7 @@ app = FastAPI(lifespan=lifespan)
 @app.post("/webhook")
 async def webhook(request: Request) -> None:
     update = Update.model_validate(await request.json(), context={"bot": bot})
+    print(request.json())
     await dp.feed_update(bot, update)
 
 if __name__ == "__main__":
