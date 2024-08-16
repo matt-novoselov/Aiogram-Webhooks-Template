@@ -10,7 +10,6 @@ from contextlib import asynccontextmanager
 
 # Load secrets from environment
 dotenv.load_dotenv()
-
 # Load Telegram bot API token
 TELEGRAM_TOKEN = getenv("TELEGRAM_TOKEN")
 # Load public domain for webhooks
@@ -18,6 +17,14 @@ WEBHOOK_DOMAIN = getenv("WEBHOOK_DOMAIN")
 
 bot = Bot(token=TELEGRAM_TOKEN)
 dp = Dispatcher()
+
+
+@dp.message(CommandStart())
+async def start(message: Message) -> None:
+    await message.answer('Hello, world!')
+
+
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -29,19 +36,11 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-@dp.message(CommandStart())
-async def start(message: Message) -> None:
-    await message.answer('Hello, world!')
-
 @app.post("/webhook")
 async def webhook(request: Request) -> None:
     update = Update.model_validate(await request.json(), context={"bot": bot})
     await dp.feed_update(bot, update)
 
 if __name__ == "__main__":
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s',
-    )
-
+    logging.basicConfig(level=logging.ERROR)
     uvicorn.run(app, host="0.0.0.0", port=8080)
