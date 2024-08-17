@@ -14,12 +14,25 @@ async def set_webhook():
     webhook_info = await bot.get_webhook_info()
     current_webhook_url = webhook_info.url
 
+    # Local variable to store the modified URL
+    webhook_url = WEBHOOK_DOMAIN
+
+    # Enforce domain certificate to be https://
+    if not webhook_url.startswith("https://"):
+        # Remove any existing scheme (http://, https://, etc.) and prepend https://
+        if "://" in webhook_url:
+            webhook_url = "https://" + webhook_url.split("://", 1)[1]
+        else:
+            webhook_url = "https://" + webhook_url
+
+    print(webhook_url)
+
     # Check if the webhook is already set to the desired domain
-    if current_webhook_url != WEBHOOK_DOMAIN:
-        await bot.set_webhook(url=WEBHOOK_DOMAIN,
+    if current_webhook_url != webhook_url:
+        await bot.set_webhook(url=webhook_url,
                               allowed_updates=dp.resolve_used_update_types(),
                               drop_pending_updates=True)
-        logging.info(f"Webhook updated to: {WEBHOOK_DOMAIN}")
+        logging.info(f"Webhook updated to: {webhook_url}")
     else:
         logging.info("Webhook is already correctly set.")
 
