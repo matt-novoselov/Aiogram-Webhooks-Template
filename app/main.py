@@ -22,4 +22,6 @@ app.add_api_route("/", webhook, methods=["POST"])
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.ERROR)
-    uvicorn.run(app, host="0.0.0.0", port=8080, log_level="debug")
+
+    # Run Uvicorn with log_level set to 'error'
+    uvicorn.run(app, host="0.0.0.0", port=8080, log_level="error")
