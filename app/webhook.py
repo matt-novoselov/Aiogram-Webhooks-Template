@@ -16,11 +16,13 @@ async def set_webhook_if_needed():
         await bot.set_webhook(url=WEBHOOK_DOMAIN,
                               allowed_updates=dp.resolve_used_update_types(),
                               drop_pending_updates=True)
-        logging.info(f"Webhook updated to: {WEBHOOK_DOMAIN}/webhook")
+        logging.info(f"Webhook updated to: {WEBHOOK_DOMAIN}")
     else:
         logging.info("Webhook is already correctly set.")
+
 
 @webhook_route.post("/")
 async def webhook(request: Request) -> None:
     update = Update.model_validate(await request.json(), context={"bot": bot})
     await dp.feed_update(bot, update)
+

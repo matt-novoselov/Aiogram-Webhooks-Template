@@ -18,7 +18,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 # Include the webhook route
-app.include_router(webhook_route, prefix="/webhook")
+app.include_router(webhook_route, prefix="/")
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
