@@ -19,7 +19,7 @@ async def set_webhook_if_needed():
     else:
         logging.info("Webhook is already correctly set.")
 
-@webhook_route.post("/")
+@webhook_route.post("")
 async def webhook(request: Request) -> None:
     try:
         update = Update.model_validate(await request.json(), context={"bot": bot})
