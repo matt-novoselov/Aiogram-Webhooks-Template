@@ -1,11 +1,10 @@
 import logging
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, HTTPException
 from aiogram.types import Update
 from app.bot import bot, dp
 from app.config import WEBHOOK_DOMAIN
 
 webhook_route = APIRouter()
-
 
 async def set_webhook_if_needed():
     webhook_info = await bot.get_webhook_info()
@@ -20,9 +19,11 @@ async def set_webhook_if_needed():
     else:
         logging.info("Webhook is already correctly set.")
 
-
 @webhook_route.post("/")
 async def webhook(request: Request) -> None:
-    update = Update.model_validate(await request.json(), context={"bot": bot})
-    await dp.feed_update(bot, update)
-
+    try:
+        update = Update.model_validate(await request.json(), context={"bot": bot})
+        await dp.feed_update(bot, update)
+    except Exception as e:
+        logging.error(f"Error handling update: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
