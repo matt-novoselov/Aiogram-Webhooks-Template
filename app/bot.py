@@ -6,6 +6,7 @@ from app.config import TELEGRAM_TOKEN
 bot = Bot(token=TELEGRAM_TOKEN)
 dp = Dispatcher()
 
+
 @dp.message(CommandStart())
 async def start(message: Message) -> None:
     await message.answer('Hello, world!')

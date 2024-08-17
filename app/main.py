@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from app.webhook import set_webhook_if_needed, webhook_route
 from app.bot import bot
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Ensure the correct webhook is set when the app starts
