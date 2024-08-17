@@ -2,8 +2,8 @@ import logging
 import uvicorn
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from webhook import set_webhook_if_needed, webhook_route
-from bot import bot
+from app.webhook import set_webhook_if_needed, webhook_route
+from app.bot import bot
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

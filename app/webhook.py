@@ -1,8 +1,8 @@
 import logging
 from fastapi import APIRouter, Request
 from aiogram.types import Update
-from bot import bot, dp
-from config import WEBHOOK_DOMAIN
+from app.bot import bot, dp
+from app.config import WEBHOOK_DOMAIN
 
 webhook_route = APIRouter()
 
