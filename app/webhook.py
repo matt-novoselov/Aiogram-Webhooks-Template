@@ -4,10 +4,13 @@ from aiogram.types import Update
 from app.bot import bot, dp
 from app.config import WEBHOOK_DOMAIN
 
+
+# Create a new router
 webhook_route = APIRouter()
 
 
-async def set_webhook_if_needed():
+# Set up a webhook on Telegram server
+async def set_webhook():
     webhook_info = await bot.get_webhook_info()
     current_webhook_url = webhook_info.url
 
@@ -21,10 +24,19 @@ async def set_webhook_if_needed():
         logging.info("Webhook is already correctly set.")
 
 
+# Delete webhook on telegram server
+async def delete_webhook():
+    await bot.delete_webhook()
+    logging.info("Webhook deleted.")
+
+
+# Webhook processing
 async def webhook(request: Request) -> None:
     try:
+        # Parse the incoming JSON payload from the request
         update = Update.model_validate(await request.json(), context={"bot": bot})
         await dp.feed_update(bot, update)
     except Exception as e:
+        # Log any errors that occur while processing the update
         logging.error(f"Error handling update: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")

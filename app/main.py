@@ -2,26 +2,26 @@ import logging
 import uvicorn
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from app.webhook import set_webhook_if_needed, webhook
-from app.bot import bot
+from app.webhook import set_webhook, delete_webhook, webhook
 
 
+# Manage the lifecycle of the app
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Ensure the correct webhook is set when the app starts
-    await set_webhook_if_needed()
+    # Ensure the correct webhook is set on Telegram server when the app starts
+    await set_webhook()
     yield
     # Cleanup the webhook when the app stops
-    await bot.delete_webhook()
-    logging.info("Webhook deleted.")
+    await delete_webhook()
 
+# Create a FastAPI application
 app = FastAPI(lifespan=lifespan)
 
-# Directly add the webhook route to the FastAPI app
+# Handle webhook POST request at root domain
 app.add_api_route("/", webhook, methods=["POST"])
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
-    # Run Uvicorn with log_level set to 'error'
+    # Run Uvicorn to start a server
     uvicorn.run(app, host="0.0.0.0", port=8080, log_level="error")
