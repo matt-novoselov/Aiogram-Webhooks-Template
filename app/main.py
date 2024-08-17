@@ -2,7 +2,7 @@ import logging
 import uvicorn
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from app.webhook import set_webhook_if_needed, webhook_route
+from app.webhook import set_webhook_if_needed, webhook
 from app.bot import bot
 
 @asynccontextmanager
@@ -16,8 +16,8 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-# Include the webhook route with a root prefix
-app.include_router(webhook_route, prefix="/")
+# Directly add the webhook route to the FastAPI app
+app.add_api_route("/", webhook, methods=["POST"])
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
