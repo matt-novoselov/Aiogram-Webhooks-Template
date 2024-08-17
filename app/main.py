@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from app.webhook import set_webhook_if_needed, webhook
 from app.bot import bot
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Ensure the correct webhook is set when the app starts
@@ -20,5 +21,5 @@ app = FastAPI(lifespan=lifespan)
 app.add_api_route("/", webhook, methods=["POST"])
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.ERROR)
     uvicorn.run(app, host="0.0.0.0", port=8080, log_level="debug")

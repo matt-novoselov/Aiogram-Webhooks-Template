@@ -6,6 +6,7 @@ from app.config import WEBHOOK_DOMAIN
 
 webhook_route = APIRouter()
 
+
 async def set_webhook_if_needed():
     webhook_info = await bot.get_webhook_info()
     current_webhook_url = webhook_info.url
@@ -18,6 +19,7 @@ async def set_webhook_if_needed():
         logging.info(f"Webhook updated to: {WEBHOOK_DOMAIN}")
     else:
         logging.info("Webhook is already correctly set.")
+
 
 async def webhook(request: Request) -> None:
     try:
