@@ -25,8 +25,6 @@ async def set_webhook():
         else:
             webhook_url = "https://" + webhook_url
 
-    print(webhook_url)
-
     # Check if the webhook is already set to the desired domain
     if current_webhook_url != webhook_url:
         await bot.set_webhook(url=webhook_url,
