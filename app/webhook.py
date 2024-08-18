@@ -35,12 +35,6 @@ async def set_webhook():
         logging.info("Webhook is already correctly set.")
 
 
-# Delete webhook on telegram server
-async def delete_webhook():
-    await bot.delete_webhook()
-    logging.info("Webhook deleted.")
-
-
 # Webhook processing
 async def webhook(request: Request) -> None:
     try:
