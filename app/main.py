@@ -20,8 +20,7 @@ app = FastAPI(lifespan=lifespan)
 app.add_api_route("/", webhook, methods=["POST"])
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    logging.getLogger("aiogram").setLevel(logging.WARNING)
+    logging.basicConfig(level=logging.WARNING)
 
     # Run Uvicorn to start a server
     uvicorn.run(app, host="0.0.0.0", port=8080, log_level="error")
