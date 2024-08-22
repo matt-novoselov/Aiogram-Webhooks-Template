@@ -1,8 +1,8 @@
 import logging
 from fastapi import APIRouter, Request, HTTPException
 from aiogram.types import Update
-from app.bot import bot, dp
-from app.config import WEBHOOK_DOMAIN
+from Source.app.bot import bot, dp
+from Source.app.config import WEBHOOK_DOMAIN
 
 
 # Create a new router

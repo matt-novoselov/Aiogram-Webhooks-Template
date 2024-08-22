@@ -2,7 +2,7 @@ import logging
 import uvicorn
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from app.webhook import set_webhook, webhook
+from Source.app.webhook import set_webhook, webhook
 
 
 # Manage the lifecycle of the app
